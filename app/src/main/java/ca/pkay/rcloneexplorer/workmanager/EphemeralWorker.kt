@@ -219,10 +219,8 @@ class EphemeralWorker (private var mContext: Context, workerParams: WorkerParame
                             if (sIsLoggingEnabled) {
                                 log2File?.log(line)
                             }
-                            statusObject.parseLoglineToStatusObject(logline)
-                        } else if (logline.getString("level") == "warning") {
-                            statusObject.parseLoglineToStatusObject(logline)
                         }
+                        statusObject.parseLoglineToStatusObject(logline)
 
                         updateForegroundNotification(mNotificationManager?.updateNotification(
                             title,

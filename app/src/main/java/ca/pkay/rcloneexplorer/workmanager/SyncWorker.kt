@@ -188,10 +188,8 @@ class SyncWorker (private var mContext: Context, workerParams: WorkerParameters)
                             if (sIsLoggingEnabled) {
                                 log2File?.log(line)
                             }
-                            statusObject.parseLoglineToStatusObject(logline)
-                        } else if (logline.getString("level") == "warning") {
-                            statusObject.parseLoglineToStatusObject(logline)
                         }
+                        statusObject.parseLoglineToStatusObject(logline)
 
                         updateForegroundNotification(mNotificationManager.updateSyncNotification(
                             title,

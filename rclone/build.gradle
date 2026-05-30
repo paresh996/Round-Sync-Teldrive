@@ -28,6 +28,7 @@ ext {
     RCLONE_VERSION = project.properties['de.felixnuesse.extract.rCloneVersion']
     GO_REQ_VERSION = project.properties['de.felixnuesse.extract.goVersion']
     RCLONE_MODULE = 'github.com/rclone/rclone'
+    RCLONE_FORK_MODULE = 'github.com/tgdrive/rclone'
     RCLONE_CUSTOM_VERSION_SUFFIX = '-extract'
 
     PROJECT_DIR = projectDir.absolutePath
@@ -179,7 +180,13 @@ task createRcloneModule(type: Exec) {
     commandLine 'go', 'mod', 'init', 'rclone'
 }
 
-task checkoutRclone(type: Exec, dependsOn: createRcloneModule) {
+task replaceRcloneModule(type: Exec, dependsOn: createRcloneModule) {
+    workingDir CACHE_PATH
+    environment 'GOPATH', GOPATH
+    commandLine 'go', 'mod', 'edit', '-replace', "${RCLONE_MODULE}=${RCLONE_FORK_MODULE}@v${RCLONE_VERSION}"
+}
+
+task checkoutRclone(type: Exec, dependsOn: replaceRcloneModule) {
     workingDir CACHE_PATH
     environment 'GOPATH', GOPATH
 
@@ -217,7 +224,7 @@ task buildx64(dependsOn: checkoutRclone) {
 }
 
 task buildAll {
-    dependsOn buildArm, buildArm64, buildx86, buildx64
+    dependsOn buildArm64
 }
 
 task clean {

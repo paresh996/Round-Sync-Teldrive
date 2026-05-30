@@ -4,5 +4,5 @@ contact_links:
     url: https://forum.rclone.org/
     about: For questions around rclone itself.
   - name: Rclone Issue Tracker
-    url: https://github.com/rclone/rclone/issues
+    url: https://github.com/tgdrive/rclone/issues
     about: When you are sure rclone does not work correctly.
