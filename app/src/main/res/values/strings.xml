@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Round Sync</string>
-    <string name="app_description">Rclone for Android</string>
-    <string name="app_short_name">Round Sync</string>
+    <string name="app_name">Round Sync Teldrive</string>
+    <string name="app_description">Rclone for Android with Teldrive remote support</string>
+    <string name="app_short_name">Round Sync Teldrive</string>
 
     <string name="title_activity_about">About</string>
     <string name="title_activity_changelog">Changelog</string>
@@ -29,7 +29,7 @@
     <string name="author_name" translatable="false">Patryk Kaczmarkiewicz &lt;github.com/patrykcoding&gt;</string>
     <string name="follow_on_github">Follow on GitHub</string>
     <string name="maintainer">Maintainer</string>
-    <string name="maintainer_name" translatable="false">Felix Nüsse &lt;github.com/newhinton&gt;</string>
+    <string name="maintainer_name" translatable="false">paresh996 &lt;github.com/paresh996&gt;</string>
     <string name="old_maintainer">Old Maintainer</string>
     <string name="old_maintainer_name" translatable="false">x0b &lt;github.com/x0b&gt;</string>
     <string name="empty_folder">The folder is empty</string>
@@ -44,8 +44,8 @@
     <string name="cancel">Cancel</string>
     <string name="select">Select</string>
     <string name="app_icon">App Icon</string>
-    <string name="github_app_url" translatable="false">https://github.com/newhinton/Round-Sync</string>
-    <string name="github_issue_url" translatable="false">https://github.com/newhinton/Round-Sync/issues/new/choose</string>
+    <string name="github_app_url" translatable="false">https://github.com/paresh996/Round-Sync-Teldrive</string>
+    <string name="github_issue_url" translatable="false">https://github.com/paresh996/Round-Sync-Teldrive/issues/new/choose</string>
     <string name="github_author_url" translatable="false">https://github.com/patrykcoding</string>
     <string name="github_maintainer_url" translatable="false">https://github.com/newhinton</string>
     <string name="replace_config_file_question">Replace the current configuration file?</string>
@@ -121,7 +121,7 @@
     <string name="from">from</string>
     <string name="flaticon" translatable="false">Flaticon</string>
     <string name="intro_welcome_title">Welcome!</string>
-    <string name="intro_welcome_description">Round Sync is a file management tool that can handle files stored on your device or in the cloud. For more questions, visit github.com/newhinton/Round-Sync.</string>
+    <string name="intro_welcome_description">Round Sync is a file management tool that can handle files stored on your device or in the cloud. For more questions, visit github.com/paresh996/Round-Sync-Teldrive.</string>
     <string name="intro_storage_title">Storage access</string>
     <string name="intro_storage_description">Round Sync relies on rclone and needs your permission to access all files. Please grant storage access when prompted, otherwise the application will not work properly.</string>
     <string name="intro_community_title">Community</string>
@@ -353,10 +353,12 @@
 
     <string name="task_edit_label_name">General Information</string>
     <string name="task_edit_label_local">Local Storage Path</string>
+    <string name="task_edit_label_custom_args">Custom Args</string>
     <string name="task_edit_label_remote">Remote Storage Path</string>
     <string name="task_edit_label_direction">Direction</string>
     <string name="task_edit_hint_title">Title</string>
     <string name="task_edit_hint_local">Local Path</string>
+    <string name="task_edit_hint_custom_args">Additional rclone arguments</string>
     <string name="task_edit_hint_remote">Remote Path</string>
     <string name="task_edit_label_filter">Filter</string>
     <string name="task_edit_hint_filter">**/.thumbnails/**</string>
@@ -427,7 +429,7 @@
         <item quantity="other">%s Files were uploaded!</item>
     </plurals>
 
-    <string name="abi_not_supported_arm_downgrade">Unfortunately, this Round Sync version is not compatible with your device. Try the armeabi-v7a APK from github.com/newhinton/Round-Sync/releases/latest.</string>
+    <string name="abi_not_supported_arm_downgrade">Unfortunately, this Round Sync version is not compatible with your device. Try the armeabi-v7a APK from github.com/paresh996/Round-Sync-Teldrive/releases/latest.</string>
     <string name="abi_not_supported">Your device does not support this version of Round Sync.</string>
     <string name="trigger">Triggers</string>
     <string name="title_activity_trigger">Triggers</string>

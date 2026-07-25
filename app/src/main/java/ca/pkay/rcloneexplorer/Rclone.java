@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
@@ -669,26 +670,46 @@ public class Rclone {
         return serve(protocol, port, allowRemoteAccess, user, password, remote, servePath, null);
     }
 
-    /**
-     * This is only kept for legacy purposes. It was used before md5-checksum was introduced.
-     * @param remoteItem
-     * @param localPath
-     * @param remotePath
-     * @param syncDirection
-     * @return
-     */
     @Deprecated
-    public Process sync(RemoteItem remoteItem, String localPath, String remotePath, int syncDirection) {
-        return sync(remoteItem, localPath, remotePath, syncDirection, false, new ArrayList<>(0), false);
+    public Process sync(RemoteItem remoteItem, String localPath, String remotePath, int syncDirection, String customArgs) {
+        return sync(remoteItem, localPath, remotePath, syncDirection, false, new ArrayList<>(0), false, customArgs);
     }
 
-    public Process sync(RemoteItem remoteItem, String localPath, String remotePath, int syncDirection, boolean useMD5Sum, ArrayList<FilterEntry> filters, boolean deleteExcluded) {
+    public Process sync(RemoteItem remoteItem, String localPath, String remotePath, int syncDirection, boolean useMD5Sum, ArrayList<FilterEntry> filters, boolean deleteExcluded, String customArgs) {
+        String[] env = getRcloneEnv();
+        try {
+            return getRuntimeProcess(buildSyncCommand(remoteItem, localPath, remotePath, syncDirection, useMD5Sum, filters, deleteExcluded, customArgs), env);
+        } catch (IOException e) {
+            FLog.e(TAG, "sync: error starting rclone", e);
+            return null;
+        }
+    }
+
+    public String buildSyncCommandPreview(RemoteItem remoteItem, String localPath,
+                                          String remotePath, int syncDirection, boolean useMD5Sum,
+                                          ArrayList<FilterEntry> filters, boolean deleteExcluded, String customArgs) {
+        String[] fullCommand = buildSyncCommand(remoteItem, localPath, remotePath, syncDirection, useMD5Sum, filters, deleteExcluded, customArgs);
+        if (fullCommand == null || fullCommand.length <= 7) {
+            return "rclone";
+        }
+        String[] previewCommand = Arrays.copyOfRange(fullCommand, 7, fullCommand.length);
+        return "rclone " + TextUtils.join(" ", previewCommand);
+    }
+
+    public String[] buildSyncCommand(RemoteItem remoteItem, String localPath,
+                                          String remotePath, int syncDirection, boolean useMD5Sum,
+                                          ArrayList<FilterEntry> filters, boolean deleteExcluded, String customArgs) {
         String[] command;
         String remoteName = remoteItem.getName();
         String localRemotePath = (remoteItem.isRemoteType(RemoteItem.LOCAL)) ? getLocalRemotePathPrefix(remoteItem, context)  + "/" : "";
         String remoteSection = (remotePath.compareTo("//" + remoteName) == 0) ? remoteName + ":" + localRemotePath : remoteName + ":" + localRemotePath + remotePath;
 
-        ArrayList<String> defaultParameter = new ArrayList<>(Arrays.asList("--transfers", "1", "--stats=1s", "--stats-log-level", "NOTICE", "--use-json-log"));
+        ArrayList<String> defaultParameter = new ArrayList<>(Arrays.asList("--transfers", "1", "--stats=500ms", "--stats-log-level", "NOTICE", "--use-json-log"));
+
+        if (customArgs != null && !customArgs.isEmpty()) {
+            Collections.addAll(defaultParameter, customArgs.trim().split("\\s+"));
+        }
+
         ArrayList<String> directionParameter = new ArrayList<>();
 
         if(useMD5Sum){
@@ -719,17 +740,20 @@ public class Rclone {
             Collections.addAll(directionParameter, "copy", remoteSection, localPath);
             directionParameter.addAll(defaultParameter);
             command = createCommandWithOptions(directionParameter);
-        }else {
+        } else if (syncDirection == SyncDirectionObject.SYNC_BIDIRECTIONAL_INITIAL) {
+            // bisync requires path1 path2 order (local first by convention)
+            Collections.addAll(directionParameter, "bisync", localPath, remoteSection);
+            directionParameter.add("--resync");   // mandatory for first run / force resync
+            directionParameter.addAll(defaultParameter);
+            command = createCommandWithOptions(directionParameter);
+        } else if (syncDirection == SyncDirectionObject.SYNC_BIDIRECTIONAL) {
+            Collections.addAll(directionParameter, "bisync", localPath, remoteSection);
+            directionParameter.addAll(defaultParameter);
+            command = createCommandWithOptions(directionParameter);
+        } else {
             return null;
         }
-
-        String[] env = getRcloneEnv();
-        try {
-            return getRuntimeProcess(command, env);
-        } catch (IOException e) {
-            FLog.e(TAG, "sync: error starting rclone", e);
-            return null;
-        }
+        return command;
     }
 
     public Process downloadFile(RemoteItem remote, FileItem downloadItem, String downloadPath) {
@@ -751,7 +775,7 @@ public class Rclone {
 
         localFilePath = encodePath(localFilePath);
 
-        command = createCommandWithOptions("copy", remoteFilePath, localFilePath, "--transfers", "1", "--stats=1s", "--stats-log-level", "NOTICE", "--use-json-log");
+        command = createCommandWithOptions("copy", remoteFilePath, localFilePath, "--transfers", "1", "--stats=500ms", "--stats-log-level", "NOTICE", "--use-json-log");
 
         String[] env = getRcloneEnv();
         try {
@@ -783,7 +807,7 @@ public class Rclone {
             path = (uploadPath.compareTo("//" + remoteName) == 0) ? remoteName + ":" + localRemotePath : remoteName + ":" + localRemotePath + uploadPath;
         }
 
-        command = createCommandWithOptions("copy", uploadFile, path, "--transfers", "1", "--stats=1s", "--stats-log-level", "NOTICE", "--use-json-log");
+        command = createCommandWithOptions("copy", uploadFile, path, "--transfers", "1", "--stats=500ms", "--stats-log-level", "NOTICE", "--use-json-log");
 
         String[] env = getRcloneEnv();
         try {

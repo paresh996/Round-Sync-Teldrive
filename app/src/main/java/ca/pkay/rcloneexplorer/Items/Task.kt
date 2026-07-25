@@ -1,11 +1,13 @@
 package ca.pkay.rcloneexplorer.Items
 
+import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNames
 import org.json.JSONObject
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class Task(var id: Long) {
     // Alternatives are kept for backwards compatibility with old, manual parser
@@ -21,7 +23,7 @@ data class Task(var id: Long) {
     var deleteExcluded = false
     var onFailFollowup: Long? = null
     var onSuccessFollowup: Long? = null
-
+    var customArgs: String = ""
     override fun toString(): String {
         return "$title: $remoteId: $remoteType: $remotePath: $localPath: $direction"
     }
@@ -41,6 +43,7 @@ data class Task(var id: Long) {
         var COLUMN_NAME_DELETE_EXCLUDED = "task_delete_excluded"
         var COLUMN_NAME_ONFAIL_FOLLOWUP = "task_onFailFollowupTask"
         var COLUMN_NAME_ONSUCCESS_FOLLOWUP = "task_onSuccessFollowupTask"
+        var COLUMN_NAME_CUSTOM_ARGS = "task_custom_args"
 
         const val TASK_MD5SUM_DEFAULT = false
         const val TASK_WIFIONLY_DEFAULT = false

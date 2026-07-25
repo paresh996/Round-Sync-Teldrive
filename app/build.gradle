@@ -13,7 +13,7 @@ android {
     defaultConfig {
         generatedDensities = []
         vectorDrawables.generatedDensities = []
-        applicationId 'de.felixnuesse.extract'
+        applicationId 'de.felixnuesse.extract.teldrive'
         minSdkVersion 23
         compileSdk 34
         targetSdkVersion 34

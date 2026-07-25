@@ -1,5 +1,6 @@
 package ca.pkay.rcloneexplorer.Activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -55,6 +56,7 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
     private lateinit var filterDropdown: Spinner
     private lateinit var createNewFilterButton: Button
     private lateinit var switchDeleteExcluded: Switch
+    private lateinit var bisyncForceResyncSwitch: Switch
 
 
     private lateinit var onFailDropdown: Spinner
@@ -134,6 +136,7 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
         fab = findViewById(R.id.saveButton)
         switchWifi = findViewById(R.id.task_wifionly)
         switchMD5sum = findViewById(R.id.task_md5sum)
+        bisyncForceResyncSwitch = findViewById(R.id.task_bisync_force_resync)
 
         rcloneInstance = Rclone(this)
         dbHandler = DatabaseHandler(this)
@@ -167,16 +170,37 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
             val filter = if(filterDropdown.selectedItemPosition > 0 && filterDropdown.selectedItemPosition < filterDropdown.count) filterItems[filterDropdown.selectedItemPosition - 1] else null
             showFilterMenu(filterOptionsButton, filter)
         }
+        findViewById<Button>(R.id.task_preview_command_button).setOnClickListener {
+            val task = getTaskValues(existingTask?.id ?: 0) ?: return@setOnClickListener
+            val remoteItem = rcloneInstance.getRemoteItemFromName(task.remoteId)
+            val taskFilter = if (task.filterId != null) dbHandler.getFilter(task.filterId!!) else null
+            val filterList = taskFilter?.getFilters() ?: ArrayList()
+
+            val preview = rcloneInstance.buildSyncCommandPreview(
+                remoteItem, task.localPath, task.remotePath,
+                task.direction, task.md5sum, filterList, task.deleteExcluded, task.customArgs)
+
+            AlertDialog.Builder(this)
+                .setTitle("rclone command")
+                .setMessage(preview)
+                .setPositiveButton("OK", null)
+                .show()
+        }
         createNewFilterButton = findViewById(R.id.task_edit_filter_add_button)
         createNewFilterButton.setOnClickListener {
             openFilterActivity()
         }
 
         findViewById<TextView>(R.id.task_title_textfield).text = existingTask?.title
+        findViewById<TextView>(R.id.task_custom_args_textfield).text = existingTask?.customArgs ?: ""
         switchWifi.isChecked = existingTask?.wifionly ?: false
         switchMD5sum.isChecked = existingTask?.md5sum ?: false
         switchDeleteExcluded.isChecked = existingTask?.deleteExcluded ?: false
         prepareSyncDirectionDropdown()
+        val isBisync = existingTask?.direction == SyncDirectionObject.SYNC_BIDIRECTIONAL ||
+                existingTask?.direction == SyncDirectionObject.SYNC_BIDIRECTIONAL_INITIAL
+        bisyncForceResyncSwitch.visibility = if (isBisync) View.VISIBLE else View.GONE
+        bisyncForceResyncSwitch.isChecked = existingTask?.direction == SyncDirectionObject.SYNC_BIDIRECTIONAL_INITIAL
         prepareLocal()
         prepareRemote()
         prepareFilterDropdown()
@@ -235,6 +259,7 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
 
     private fun getTaskValues(id: Long): Task? {
         val taskToPopulate = Task(id)
+        taskToPopulate.customArgs = findViewById<EditText>(R.id.task_custom_args_textfield).text.toString()
         taskToPopulate.title = findViewById<EditText>(R.id.task_title_textfield).text.toString()
         val remotename = remoteDropdown.selectedItem.toString()
         taskToPopulate.remoteId = remotename
@@ -246,7 +271,11 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
         }
         taskToPopulate.remotePath = remotePath.text.toString()
         taskToPopulate.localPath = localPath.text.toString()
-        taskToPopulate.direction = direction
+        if (direction == SyncDirectionObject.SYNC_BIDIRECTIONAL && bisyncForceResyncSwitch.isChecked) {
+            taskToPopulate.direction = SyncDirectionObject.SYNC_BIDIRECTIONAL_INITIAL
+        } else {
+            taskToPopulate.direction = direction
+        }
 
         taskToPopulate.wifionly = switchWifi.isChecked
         taskToPopulate.md5sum = switchMD5sum.isChecked
@@ -487,6 +516,9 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
                 id: Long
             ) {
                 updateSpinnerDescription(position + 1)
+                val isBisync = (position + 1 == SyncDirectionObject.SYNC_BIDIRECTIONAL ||
+                        position + 1 == SyncDirectionObject.SYNC_BIDIRECTIONAL_INITIAL)
+                bisyncForceResyncSwitch.visibility = if (isBisync) View.VISIBLE else View.GONE
             }
 
             override fun onNothingSelected(adapterView: AdapterView<*>?) {}
