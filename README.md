@@ -8,7 +8,7 @@ Visit [https://roundsync.com](https://roundsync.com) for more information on the
 ## What's different from the original Round-Sync?
 - Supports the [**Teldrive**](https://teldrive-docs.pages.dev/) remote
 - Supports custom rclone command args: <img src="fastlane\metadata\android\en-US\images\phoneScreenshots\custom_args.png" width="360vh" />
-- You can view the full rclone command of your tasks: <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/rclone_command.png" width="360vh" />
+- You can view the full rclone command of your tasks: <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/preview_rclone_command.png" width="360vh" />
 
 ## Screenshots
 <table>
