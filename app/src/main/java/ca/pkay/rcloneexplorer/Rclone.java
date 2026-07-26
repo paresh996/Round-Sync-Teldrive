@@ -39,7 +39,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -678,7 +677,7 @@ public class Rclone {
     public Process sync(RemoteItem remoteItem, String localPath, String remotePath, int syncDirection, boolean useMD5Sum, ArrayList<FilterEntry> filters, boolean deleteExcluded, String customArgs) {
         String[] env = getRcloneEnv();
         try {
-            return getRuntimeProcess(buildSyncCommand(remoteItem, localPath, remotePath, syncDirection, useMD5Sum, filters, deleteExcluded, customArgs), env);
+            return getRuntimeProcess(buildSyncCommand(remoteItem, localPath, remotePath, syncDirection, useMD5Sum, filters, deleteExcluded, customArgs, false), env);
         } catch (IOException e) {
             FLog.e(TAG, "sync: error starting rclone", e);
             return null;
@@ -688,7 +687,7 @@ public class Rclone {
     public String buildSyncCommandPreview(RemoteItem remoteItem, String localPath,
                                           String remotePath, int syncDirection, boolean useMD5Sum,
                                           ArrayList<FilterEntry> filters, boolean deleteExcluded, String customArgs) {
-        String[] fullCommand = buildSyncCommand(remoteItem, localPath, remotePath, syncDirection, useMD5Sum, filters, deleteExcluded, customArgs);
+        String[] fullCommand = buildSyncCommand(remoteItem, localPath, remotePath, syncDirection, useMD5Sum, filters, deleteExcluded, customArgs, true);
         if (fullCommand == null || fullCommand.length <= 7) {
             return "rclone";
         }
@@ -696,9 +695,57 @@ public class Rclone {
         return "rclone " + TextUtils.join(" ", previewCommand);
     }
 
+    private List<String> parseCustomArgs(String customArgs) {
+        List<String> args = new ArrayList<>();
+        if (customArgs == null || customArgs.trim().isEmpty()) {
+            return args;
+        }
+
+        boolean inSingleQuote = false;
+        boolean inDoubleQuote = false;
+        StringBuilder currentArg = new StringBuilder();
+
+        for (int i = 0; i < customArgs.length(); i++) {
+            char c = customArgs.charAt(i);
+
+            if (inSingleQuote) {
+                if (c == '\'') {
+                    inSingleQuote = false;
+                } else {
+                    currentArg.append(c);
+                }
+            } else if (inDoubleQuote) {
+                if (c == '"') {
+                    inDoubleQuote = false;
+                } else {
+                    currentArg.append(c);
+                }
+            } else {
+                if (c == '\'') {
+                    inSingleQuote = true;
+                } else if (c == '"') {
+                    inDoubleQuote = true;
+                } else if (Character.isWhitespace(c)) {
+                    if (currentArg.length() > 0) {
+                        args.add(currentArg.toString());
+                        currentArg.setLength(0);
+                    }
+                } else {
+                    currentArg.append(c);
+                }
+            }
+        }
+
+        if (currentArg.length() > 0) {
+            args.add(currentArg.toString());
+        }
+
+        return args;
+    }
+
     public String[] buildSyncCommand(RemoteItem remoteItem, String localPath,
                                           String remotePath, int syncDirection, boolean useMD5Sum,
-                                          ArrayList<FilterEntry> filters, boolean deleteExcluded, String customArgs) {
+                                          ArrayList<FilterEntry> filters, boolean deleteExcluded, String customArgs, boolean isPreview) {
         String[] command;
         String remoteName = remoteItem.getName();
         String localRemotePath = (remoteItem.isRemoteType(RemoteItem.LOCAL)) ? getLocalRemotePathPrefix(remoteItem, context)  + "/" : "";
@@ -707,7 +754,10 @@ public class Rclone {
         ArrayList<String> defaultParameter = new ArrayList<>(Arrays.asList("--transfers", "1", "--stats=500ms", "--stats-log-level", "NOTICE", "--use-json-log"));
 
         if (customArgs != null && !customArgs.isEmpty()) {
-            Collections.addAll(defaultParameter, customArgs.trim().split("\\s+"));
+            if (!isPreview)
+                defaultParameter.addAll(parseCustomArgs(customArgs));
+            else
+                Collections.addAll(defaultParameter, customArgs.trim().split("\\s+"));
         }
 
         ArrayList<String> directionParameter = new ArrayList<>();

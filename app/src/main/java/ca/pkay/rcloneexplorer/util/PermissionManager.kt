@@ -121,7 +121,7 @@ class PermissionManager(private var mContext: Context) {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun registerInitialRequestNotificationPermission(activity: AppCompatActivity): ActivityResultLauncher<String> {
         return activity.registerForActivityResult(
-            ActivityResultContracts.RequestPermission()) { granted ->
+            ActivityResultContracts.RequestPermission()) { _ ->
             Log.e(tag(), "granted")
         }
     }

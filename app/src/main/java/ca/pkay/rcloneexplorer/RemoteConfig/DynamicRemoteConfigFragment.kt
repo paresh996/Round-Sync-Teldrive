@@ -30,8 +30,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.setPadding
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import ca.pkay.rcloneexplorer.R
 import ca.pkay.rcloneexplorer.Rclone
 import ca.pkay.rcloneexplorer.Rclone.RCLONE_CONFIG_NAME_KEY
@@ -43,6 +41,7 @@ import com.google.android.material.textfield.TextInputLayout
 import java.util.Locale
 
 
+@Suppress("DEPRECATION")
 class DynamicRemoteConfigFragment(private val mProviderTitle: String, private val optionMap: HashMap<String, String>?) : Fragment() {
 
     private val TAG = "DynamicRemoteConfigFragment"

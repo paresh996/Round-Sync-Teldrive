@@ -2,17 +2,17 @@ package ca.pkay.rcloneexplorer.RemoteConfig
 
 import android.annotation.SuppressLint
 import android.content.Context
-import ca.pkay.rcloneexplorer.Rclone
-import android.os.AsyncTask
-import es.dmoral.toasty.Toasty
-import ca.pkay.rcloneexplorer.R
-import android.widget.Toast
 import android.content.Intent
+import android.os.AsyncTask
 import android.view.View
+import android.widget.Toast
 import ca.pkay.rcloneexplorer.Activities.MainActivity
-import java.util.ArrayList
+import ca.pkay.rcloneexplorer.R
+import ca.pkay.rcloneexplorer.Rclone
+import es.dmoral.toasty.Toasty
 
 @SuppressLint("StaticFieldLeak")
+@Suppress("DEPRECATION")
 class ConfigCreate internal constructor(
     options: ArrayList<String>?,
     formView: View,
@@ -28,7 +28,7 @@ class ConfigCreate internal constructor(
     private val mAuthView: View
 
     init {
-        this.options = ArrayList(options)
+        this.options = if (options != null) ArrayList(options) else ArrayList()
         mFormView = formView
         mAuthView = authView
         mContext = context

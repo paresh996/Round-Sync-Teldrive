@@ -2,10 +2,8 @@ package ca.pkay.rcloneexplorer.Services
 
 import android.app.IntentService
 import android.content.Intent
-import android.util.Log
 import ca.pkay.rcloneexplorer.Database.DatabaseHandler
 import ca.pkay.rcloneexplorer.workmanager.SyncManager
-import de.felixnuesse.extract.extensions.tag
 
 
 /**
@@ -13,6 +11,7 @@ import de.felixnuesse.extract.extensions.tag
  * the ability to start a task.
  * Do not actually implement any sync changes, they only belong in the SyncManager/Worker!
  */
+@Suppress("DEPRECATION")
 class SyncService: IntentService("ca.pkay.rcexplorer.SYNC_SERCVICE"){
     override fun onHandleIntent(intent: Intent?) {
         if(intent == null){
@@ -21,8 +20,6 @@ class SyncService: IntentService("ca.pkay.rcexplorer.SYNC_SERCVICE"){
 
         val action = intent.action
         val taskId = intent.getIntExtra("task", -1)
-        // Todo: Allow SyncWorker to run in silent mode, or remove this!
-        val silentRun = intent.getBooleanExtra("notification", true)
 
 
         if (action.equals("START_TASK")) {

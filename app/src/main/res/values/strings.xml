@@ -47,7 +47,9 @@
     <string name="github_app_url" translatable="false">https://github.com/paresh996/Round-Sync-Teldrive</string>
     <string name="github_issue_url" translatable="false">https://github.com/paresh996/Round-Sync-Teldrive/issues/new/choose</string>
     <string name="github_author_url" translatable="false">https://github.com/patrykcoding</string>
-    <string name="github_maintainer_url" translatable="false">https://github.com/newhinton</string>
+    <string name="github_maintainer_url" translatable="false">https://github.com/paresh996</string>
+    <string name="github_old_maintainer_url" translatable="false">https://github.com/x0b</string>
+    <string name="github_previous_maintainer_url" translatable="false">https://github.com/newhinton</string>
     <string name="replace_config_file_question">Replace the current configuration file?</string>
     <string name="config_file_lost_statement">Your current configuration will be lost</string>
     <string name="continue_statement">Continue</string>
@@ -116,16 +118,13 @@
     <string name="title_activity_settings">Settings</string>
     <string name="pref_header_general">General</string>
     <string name="restart_required">App restart is required</string>
-    <string name="app_icon_made_by">App icon made by</string>
-    <string name="smashicons" translatable="false">Smashicons</string>
-    <string name="from">from</string>
-    <string name="flaticon" translatable="false">Flaticon</string>
+    <string name="app_icon_made_by">App icon made by Gemini</string>
     <string name="intro_welcome_title">Welcome!</string>
-    <string name="intro_welcome_description">Round Sync is a file management tool that can handle files stored on your device or in the cloud. For more questions, visit github.com/paresh996/Round-Sync-Teldrive.</string>
+    <string name="intro_welcome_description">Round Sync Teldrive is a file management tool that can handle files stored on your device or in the cloud. This specific \'Teldrive\' version supports the Teldrive rclone remote. For more questions, visit github.com/paresh996/Round-Sync-Teldrive.</string>
     <string name="intro_storage_title">Storage access</string>
-    <string name="intro_storage_description">Round Sync relies on rclone and needs your permission to access all files. Please grant storage access when prompted, otherwise the application will not work properly.</string>
+    <string name="intro_storage_description">Round Sync Teldrive relies on rclone and needs your permission to access all files. Please grant storage access when prompted, otherwise the application will not work properly.</string>
     <string name="intro_community_title">Community</string>
-    <string name="intro_community_description">Round Sync is a community driven project. To contribute and improve the application, you can enable anonymous bug reporting. For more information, please visit felixnuesse.de/privacy-roundsync.</string>
+    <string name="intro_community_description">Round Sync Teldrive is a personal project. I have made it specifically for supporting Teldrive remote, and I may only add new features as and when I need them.</string>
 
     <string name="file_access">File Access</string>
     <string name="look_and_feel">Look and Feel</string>
@@ -151,7 +150,7 @@
     <string name="open_notification_settings_button">Open!</string>
     <string name="content_description_circle">circle</string>
     <string name="loading">Loading</string>
-    <string name="app_not_configured">Round Sync is not configured</string>
+    <string name="app_not_configured">Round Sync Teldrive is not configured</string>
     <string name="open_app_to_configure">Please open the app to set it up first</string>
     <string name="error_retrieving_files">Error retrieving files</string>
     <string name="background_service_broadcast" translatable="false">ca.pkay.rcexplorer.BACKGROUND_SERVICE_BROADCAST</string>
@@ -429,7 +428,7 @@
         <item quantity="other">%s Files were uploaded!</item>
     </plurals>
 
-    <string name="abi_not_supported_arm_downgrade">Unfortunately, this Round Sync version is not compatible with your device. Try the armeabi-v7a APK from github.com/paresh996/Round-Sync-Teldrive/releases/latest.</string>
+    <string name="abi_not_supported_arm_downgrade">Unfortunately, this Round Sync Teldrive version is not compatible with your device. Try the armeabi-v7a APK from github.com/paresh996/Round-Sync-Teldrive/releases/latest.</string>
     <string name="abi_not_supported">Your device does not support this version of Round Sync.</string>
     <string name="trigger">Triggers</string>
     <string name="title_activity_trigger">Triggers</string>

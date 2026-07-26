@@ -2,7 +2,6 @@ package de.felixnuesse.extract.settings.language
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -35,6 +34,7 @@ class LanguagePicker(private val mContext: Context) {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             mContext.resources.configuration.locales.get(0)
         } else {
+            @Suppress("DEPRECATION")
             mContext.resources.configuration.locale
         }
     }

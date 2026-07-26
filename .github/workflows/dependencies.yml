@@ -67,7 +67,7 @@ jobs:
           mv apktool* repo/lib/radar/tool
           chmod u+x repo/lib/radar/tool/apktool
           mv repo/lib/radar/tool/apktool_$apktoolVersion.jar repo/lib/radar/tool/apktool.jar
-          repo/bin/scanapk.php app/build/outputs/apk/oss/debug/roundsync_v*-oss-universal-debug.apk
+          repo/bin/scanapk.php app/build/outputs/apk/oss/debug/roundsync_teldrive_v*-oss-universal-debug.apk
         env:
           apktoolVersion: "2.9.3"
       - name: 'Get Commit Hash'

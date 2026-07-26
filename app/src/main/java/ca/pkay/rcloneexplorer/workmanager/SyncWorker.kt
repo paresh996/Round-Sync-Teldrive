@@ -150,6 +150,7 @@ class SyncWorker (private var mContext: Context, workerParams: WorkerParameters)
     private fun handleTask() {
         mTitle = mTask.title
         mNotificationManager.setCancelId(id)
+        @Suppress("DEPRECATION")
         val remoteItem = RemoteItem(mTask.remoteId, mTask.remoteType, "")
 
         if (mTask.title == "") {
@@ -191,7 +192,6 @@ class SyncWorker (private var mContext: Context, workerParams: WorkerParameters)
                             }
                         }
                         statusObject.parseLoglineToStatusObject(logline)
-
                         updateForegroundNotification(mNotificationManager.updateSyncNotification(
                             title,
                             statusObject.notificationContent,
@@ -418,7 +418,9 @@ class SyncWorker (private var mContext: Context, workerParams: WorkerParameters)
 
     private fun registerBroadcastReceivers() {
         val intentFilter = IntentFilter()
-        intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION)
+        @Suppress("DEPRECATION")
+        val action = WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION
+        intentFilter.addAction(action)
         mContext.registerReceiver(connectivityChangeBroadcastReceiver, intentFilter)
     }
 

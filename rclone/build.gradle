@@ -17,9 +17,6 @@
 //  - go 1.20+
 //  - Either Android SDK command-line tools, or the expected NDK version (see gradle.properties).
 
-
-import groovy.json.JsonSlurper
-
 import java.nio.file.Paths
 
 ext {
@@ -224,7 +221,7 @@ task buildx64(dependsOn: checkoutRclone) {
 }
 
 task buildAll {
-    dependsOn buildArm, buildArm64, buildx86, buildx64
+    dependsOn buildArm64
 }
 
 task clean {

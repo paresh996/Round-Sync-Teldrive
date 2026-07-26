@@ -7,7 +7,6 @@ import android.net.NetworkCapabilities
 import android.net.NetworkInfo
 import android.net.wifi.WifiManager
 import android.os.Build
-import androidx.core.content.ContextCompat.getSystemService
 
 
 class WifiConnectivitiyUtil {
@@ -37,6 +36,7 @@ class WifiConnectivitiyUtil {
             }
         }
 
+        @Suppress("DEPRECATION")
         fun dataConnection(mContext: Context): Connection {
             val connMgr = mContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

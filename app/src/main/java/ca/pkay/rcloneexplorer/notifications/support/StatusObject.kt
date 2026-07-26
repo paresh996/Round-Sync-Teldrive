@@ -81,8 +81,9 @@ class StatusObject(var mContext: Context){
         if(logLine.getString("level") == "error") {
             clearObject()
             mLogline = logLine
+            notificationContent = mLogline.getString("msg")
 
-            var error = ErrorObject(getErrorObject(), getErrorMessage())
+            val error = ErrorObject(getErrorObject(), getErrorMessage())
             Log.e(TAG, error.mErrorObject + " - " + error.mErrorMessage)
             mErrorList.add(error)
         }
@@ -170,11 +171,6 @@ class StatusObject(var mContext: Context){
                     speed
                 )
             )
-
-            var eta = mStats.get("eta")
-            if(eta == null) {
-                eta = "0";
-            }
 
             notificationBigText.add(
                 String.format(

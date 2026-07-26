@@ -72,6 +72,7 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
 
 
 
+    @Suppress("DEPRECATION")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -257,6 +258,7 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun getTaskValues(id: Long): Task? {
         val taskToPopulate = Task(id)
         taskToPopulate.customArgs = findViewById<EditText>(R.id.task_custom_args_textfield).text.toString()
@@ -336,10 +338,11 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
             localPath.setText(it?.localPath ?: "")
         }
         localPath.onFocusChangeListener =
-            View.OnFocusChangeListener { v: View?, hasFocus: Boolean ->
+            View.OnFocusChangeListener { _: View?, hasFocus: Boolean ->
                 if (hasFocus) {
                     val intent = Intent(this.applicationContext, FilePicker::class.java)
                     intent.putExtra(FilePicker.FILE_PICKER_PICK_DESTINATION_TYPE, true)
+                    @Suppress("DEPRECATION")
                     startActivityForResult(intent, REQUEST_CODE_FP_LOCAL)
                 }
             }
@@ -500,6 +503,7 @@ class TaskActivity : AppCompatActivity(), FolderSelectorCallback{
         if(filter != null) {
             intent.putExtra(FilterActivity.ID_EXTRA, filter.id)
         }
+        @Suppress("DEPRECATION")
         startActivityForResult(intent, REQUEST_CODE_FILTER)
     }
 

@@ -225,19 +225,6 @@
                     android:clickable="true"
                     android:focusable="true">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_bug_report"
-                        android:contentDescription="@string/report_a_bug" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="32dp"
-                        android:paddingEnd="0dp"
-                        android:text="@string/report_a_bug"
-                        android:textStyle="bold"/>
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

@@ -7,7 +7,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -18,7 +17,6 @@ import ca.pkay.rcloneexplorer.RemoteConfig.ProviderListFragment.ProviderSelected
 import ca.pkay.rcloneexplorer.RuntimeConfiguration
 import ca.pkay.rcloneexplorer.rclone.Provider
 import ca.pkay.rcloneexplorer.util.ActivityHelper
-import es.dmoral.toasty.Toasty
 import org.json.JSONException
 
 
@@ -181,11 +179,6 @@ class RemoteConfig : AppCompatActivity(), ProviderSelectedListener {
     }
 
     override fun onProviderSelected(provider: Provider) {
-        if (provider == null) {
-            Toasty.error(this, getString(R.string.nothing_selected), Toast.LENGTH_SHORT, true)
-                .show()
-            return
-        }
         toggleSearch(false)
         mFragment = DynamicRemoteConfigFragment(provider.name)
         startConfig(provider)

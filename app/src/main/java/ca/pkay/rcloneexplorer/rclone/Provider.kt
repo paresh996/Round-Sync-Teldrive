@@ -20,7 +20,7 @@ class Provider(val name: String) {
             val options = data.optJSONArray("Options")
 
             for (i in 0 until (options?.length() ?: 0)) {
-                ProviderOption.newInstance(options.getJSONObject(i))?.let { item.options.add(it) }
+                ProviderOption.newInstance(options!!.getJSONObject(i))?.let { item.options.add(it) }
             }
 
             return item

@@ -16,7 +16,6 @@ import ca.pkay.rcloneexplorer.R
 import ca.pkay.rcloneexplorer.util.PermissionManager
 import com.github.appintro.AppIntro2
 import de.felixnuesse.extract.onboarding.IdentifiableAppIntroFragment
-import de.felixnuesse.extract.onboarding.IdentifiableSwitchAppIntroFragment
 import de.felixnuesse.extract.onboarding.SlideLeaveInterface
 import de.felixnuesse.extract.onboarding.SlideSwitchCallback
 import de.felixnuesse.extract.updates.UpdateChecker
@@ -175,21 +174,6 @@ class OnboardingActivity : AppIntro2(), SlideLeaveInterface, SlideSwitchCallback
                     backgroundColorRes = color,
                     id = SLIDE_ID_BATTERY_OPTIMIZATION,
                     callback = this
-                ))
-            switchColor()
-        }
-
-        val updatesAlreadyEnabled = mPreferences.getBoolean(getString(R.string.pref_key_app_updates), false)
-        if(!UpdateChecker(this.applicationContext).isManagedInstallation() && !updatesAlreadyEnabled) {
-            addSlide(
-                IdentifiableSwitchAppIntroFragment.createInstance(
-                    title = getString(R.string.intro_update_checks_title),
-                    description = getString(R.string.intro_update_checks_description),
-                    imageDrawable = R.drawable.undraw_update,
-                    backgroundColorRes = color,
-                    id = SLIDE_ID_UPDATECHECK,
-                    callback = this,
-                    switchCallback = this
                 ))
             switchColor()
         }

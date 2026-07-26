@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -203,13 +202,13 @@ public class TriggerService extends Service {
             notification = new Notification.Builder(this, CHANNEL_ID)
                     .setContentTitle(getText(R.string.notification_triggerservice_title))
                     .setContentText(getText(R.string.notification_triggerservice_description))
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setSmallIcon(R.drawable.appicon)
                     .build();
         } else {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                     .setContentTitle(getText(R.string.notification_triggerservice_title))
                     .setContentText(getText(R.string.notification_triggerservice_description))
-                    .setSmallIcon(R.drawable.ic_launcher_foreground);
+                    .setSmallIcon(R.drawable.appicon);
             notification = notificationBuilder.build();
         }
         startForeground(SERVICE_NOTIFICATION_ID, notification);

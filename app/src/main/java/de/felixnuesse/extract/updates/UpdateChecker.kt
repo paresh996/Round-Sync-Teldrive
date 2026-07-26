@@ -44,6 +44,7 @@ class UpdateChecker(private var mContext: Context) {
         val sourcePackage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             mContext.packageManager.getInstallSourceInfo(mContext.packageName).installingPackageName
         } else {
+            @Suppress("DEPRECATION")
             mContext.packageManager.getInstallerPackageName(mContext.packageName)
         }
 

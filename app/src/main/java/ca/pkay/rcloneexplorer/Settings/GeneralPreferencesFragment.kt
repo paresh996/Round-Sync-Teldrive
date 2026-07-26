@@ -170,13 +170,13 @@ class GeneralPreferencesFragment : PreferenceFragmentCompat() {
         remoteItems: ArrayList<RemoteItem>,
         appShortcuts: ArrayList<String>
     ) {
-        var appShortcuts = appShortcuts
+        var localAppShortcuts = appShortcuts
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
             return
         }
 
-        if (appShortcuts.size > 4) {
-            appShortcuts = ArrayList(appShortcuts.subList(0, 4))
+        if (localAppShortcuts.size > 4) {
+            localAppShortcuts = ArrayList(localAppShortcuts.subList(0, 4))
         }
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(
@@ -186,12 +186,12 @@ class GeneralPreferencesFragment : PreferenceFragmentCompat() {
         val savedAppShortcutIds = sharedPreferences.getStringSet(
             getString(R.string.shared_preferences_app_shortcuts),
             HashSet()
-        )
+        ) ?: HashSet()
         val updatedAppShortcutIDds: MutableSet<String> = HashSet(savedAppShortcutIds)
 
         // Remove app shortcuts first
         val appShortcutIds = ArrayList<String>()
-        for (s in appShortcuts) {
+        for (s in localAppShortcuts) {
             appShortcutIds.add(AppShortcutsHelper.getUniqueIdFromString(s))
         }
         val removedIds: MutableList<String> = ArrayList(savedAppShortcutIds)
@@ -203,7 +203,7 @@ class GeneralPreferencesFragment : PreferenceFragmentCompat() {
         updatedAppShortcutIDds.removeAll(removedIds)
 
         // add new app shortcuts
-        for (appShortcut in appShortcuts) {
+        for (appShortcut in localAppShortcuts) {
             val id = AppShortcutsHelper.getUniqueIdFromString(appShortcut)
             if (updatedAppShortcutIDds.contains(id)) {
                 continue

@@ -1,14 +1,15 @@
 ### Intro
-This application was created by [Patryk Kaczmarkiewicz](https://github.com/kaczmarkiewiczp). Your current build is maintained by [x0b](https://github.com/x0b).
+This application was created by [Patryk Kaczmarkiewicz](https://github.com/kaczmarkiewiczp).
+It was later forked and maintained by [x0b](https://github.com/x0b).
+It was further forked and maintained by []().
+The current version is forked and developed by [Paresh](https://github.com/paresh996).
 
 ### Github contributors
-Additionally, these people have contributed towards making RCX better:
+Additionally, these people have contributed towards making RCX (old versions)better:
 
 * [buywetwok](https://github.com/buywetwok)
 * [davsinghm](https://github.com/davsinghm)
 * [alyssadev](https://github.com/alyssadev)
-
-[Join us now on Github.](https://github.com/x0b/rcx)
 
 ## License
     

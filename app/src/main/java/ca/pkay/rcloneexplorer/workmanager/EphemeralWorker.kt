@@ -9,6 +9,7 @@ import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Parcel
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceManager
@@ -26,7 +27,10 @@ import ca.pkay.rcloneexplorer.util.FLog
 import ca.pkay.rcloneexplorer.util.SyncLog
 import ca.pkay.rcloneexplorer.util.WifiConnectivitiyUtil
 import de.felixnuesse.extract.extensions.tag
+import de.felixnuesse.extract.notifications.implementations.DeleteWorkerNotification
 import de.felixnuesse.extract.notifications.implementations.DownloadWorkerNotification
+import de.felixnuesse.extract.notifications.implementations.MoveWorkerNotification
+import de.felixnuesse.extract.notifications.implementations.UploadWorkerNotification
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -34,10 +38,6 @@ import java.io.IOException
 import java.io.InputStreamReader
 import java.io.InterruptedIOException
 import kotlin.random.Random
-import android.util.Log
-import de.felixnuesse.extract.notifications.implementations.DeleteWorkerNotification
-import de.felixnuesse.extract.notifications.implementations.MoveWorkerNotification
-import de.felixnuesse.extract.notifications.implementations.UploadWorkerNotification
 
 
 class EphemeralWorker (private var mContext: Context, workerParams: WorkerParameters): Worker(mContext, workerParams) {
@@ -116,11 +116,6 @@ class EphemeralWorker (private var mContext: Context, workerParams: WorkerParame
                         val target = inputData.getString(DOWNLOAD_TARGETPATH)
                         val fileItem = getFileitemFromParcel(DOWNLOAD_SOURCE)
 
-                        if(fileItem == null){
-                            log("$DOWNLOAD_SOURCE: No valid target was passed!")
-                            return Result.failure()
-                        }
-
                         sRcloneProcess = Rclone(mContext).downloadFile(
                             remoteItem,
                             fileItem,
@@ -141,11 +136,6 @@ class EphemeralWorker (private var mContext: Context, workerParams: WorkerParame
                         val target = inputData.getString(MOVE_TARGETPATH)
                         val fileItem = getFileitemFromParcel(MOVE_FILE)
 
-                        if(fileItem == null){
-                            log("$MOVE_FILE: No valid target was passed!")
-                            return Result.failure()
-                        }
-
                         sRcloneProcess = Rclone(mContext).moveTo(
                             remoteItem,
                             fileItem,
@@ -154,11 +144,6 @@ class EphemeralWorker (private var mContext: Context, workerParams: WorkerParame
                     }
                     Type.DELETE -> {
                         val fileItem = getFileitemFromParcel(DELETE_FILE)
-
-                        if(fileItem == null){
-                            log("$DELETE_FILE: No valid target was passed!")
-                            return Result.failure()
-                        }
 
                         sRcloneProcess = Rclone(mContext).deleteItems(
                             remoteItem,
