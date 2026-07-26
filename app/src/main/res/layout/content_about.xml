@@ -214,18 +214,6 @@
                         android:paddingStart="32dp"
                         android:paddingEnd="0dp"/>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/report_bug"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

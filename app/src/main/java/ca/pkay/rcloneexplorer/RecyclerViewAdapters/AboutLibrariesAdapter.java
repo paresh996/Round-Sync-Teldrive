@@ -1,11 +1,12 @@
 package ca.pkay.rcloneexplorer.RecyclerViewAdapters;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Map;
@@ -37,13 +38,8 @@ public class AboutLibrariesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == CONTENT_TYPE) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.about_libraries_item, parent, false);
-            return new ContentViewHolder(view);
-        }
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.about_icon_item, parent, false);
-        return new FooterViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.about_libraries_item, parent, false);
+        return new ContentViewHolder(view);
     }
 
     @Override
@@ -58,8 +54,6 @@ public class AboutLibrariesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ContentViewHolder) {
             setContent(holder, position);
-        } else if (holder instanceof FooterViewHolder) {
-            setFooter(holder);
         }
     }
 
@@ -82,12 +76,6 @@ public class AboutLibrariesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         }
     }
 
-    private void setFooter(RecyclerView.ViewHolder viewHolder) {
-        FooterViewHolder holder = (FooterViewHolder) viewHolder;
-        holder.smashIcons.setOnClickListener(v -> listener.onLibraryClick("https://www.flaticon.com/authors/smashicons"));
-        holder.flatIcon.setOnClickListener(v -> listener.onLibraryClick("https://www.flaticon.com/"));
-    }
-
     @Override
     public int getItemCount() {
         if (libraryNames == null) {
@@ -105,18 +93,6 @@ public class AboutLibrariesAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             super(itemView);
             this.libraryName = itemView.findViewById(R.id.library_name);
             this.libraryLicence = itemView.findViewById(R.id.library_licence);
-        }
-    }
-
-    class FooterViewHolder extends RecyclerView.ViewHolder {
-
-        final TextView smashIcons;
-        final TextView flatIcon;
-
-        FooterViewHolder(View itemView) {
-            super(itemView);
-            this.smashIcons = itemView.findViewById(R.id.smashicons);
-            this.flatIcon = itemView.findViewById(R.id.flaticon);
         }
     }
 }

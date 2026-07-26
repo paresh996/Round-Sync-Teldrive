@@ -50,7 +50,6 @@ public class AboutActivity extends AppCompatActivity {
         findViewById(R.id.contributors).setOnClickListener(v -> showContributors());
         findViewById(R.id.open_source_libraries).setOnClickListener(v -> showOpenSourceLibraries());
         findViewById(R.id.star_on_github).setOnClickListener(v -> openAppGitHubLink());
-        findViewById(R.id.report_bug).setOnClickListener(v -> reportBug());
         findViewById(R.id.author_github_link).setOnClickListener(v -> openAuthorGitHubLink());
         findViewById(R.id.maintainer_github_link).setOnClickListener(v -> openMaintainerGithubLink());
         findViewById(R.id.previous_maintainer_github_link).setOnClickListener(v -> openPreviousMaintainerGithubLink());
