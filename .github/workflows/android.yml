@@ -9,6 +9,8 @@ on:
 jobs:
   createArtifacts:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
     - uses: actions/checkout@v4
     - name: Read Go version from project
@@ -32,29 +34,15 @@ jobs:
         sdkmanager "ndk;${NDK_VERSION}"
     - name: Build app
       run: ./gradlew assembleOssDebug
-    - name: Upload APK (arm)
-      uses: actions/upload-artifact@v4
+    - name: Upload APKs to Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: nightly-armeabi.apk
-        path: ${{ github.workspace }}/app/build/outputs/apk/oss/debug/*-oss-armeabi-v7a-debug.apk
-    - name: Upload APK (arm64)
+        files: ${{ github.workspace }}/app/build/outputs/apk/oss/debug/*.apk
+    - name: Upload APKs as Artifacts
       uses: actions/upload-artifact@v4
+      if: ${{ !startsWith(github.ref, 'refs/tags/') }}
       with:
-        name: nightly-arm64.apk
-        path: ${{ github.workspace }}/app/build/outputs/apk/oss/debug/*-oss-arm64-v8a-debug.apk
-    - name: Upload APK (x86)
-      uses: actions/upload-artifact@v4
-      with:
-        name: nightly-x86.apk
-        path: ${{ github.workspace }}/app/build/outputs/apk/oss/debug/*-oss-x86-debug.apk
-    - name: Upload APK (arm)
-      uses: actions/upload-artifact@v4
-      with:
-        name: nightly-x64.apk
-        path: ${{ github.workspace }}/app/build/outputs/apk/oss/debug/*-oss-x86_64-debug.apk
-    - name: Upload APK (universal)
-      uses: actions/upload-artifact@v4
-      with:
-        name: nightly-universal.apk
-        path: ${{ github.workspace }}/app/build/outputs/apk/oss/debug/*-oss-universal-debug.apk
+        name: debug-apks
+        path: ${{ github.workspace }}/app/build/outputs/apk/oss/debug/*.apk
         retention-days: 14
