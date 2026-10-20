@@ -108,7 +108,6 @@
     <string name="pref_header_general">General</string>
     <string name="restart_required">Cal reiniciar l\'aplicació</string>
     <string name="app_icon_made_by">Icona de l\'aplicació feta per</string>
-    <string name="from">de</string>
     <string name="intro_welcome_title">Benvinguda!</string>
     <string name="intro_welcome_description">Round Sync és una eina de gestió de fitxers que pot gestionar fitxers emmagatzemats al teu dispositiu i/o al núvol. Si vols més informació vés a github.com/paresh996/Round-Sync-Teldrive.</string>
     <string name="intro_storage_title">Accés a l\'emmagatzematge</string>

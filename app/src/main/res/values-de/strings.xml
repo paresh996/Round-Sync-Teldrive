@@ -102,7 +102,6 @@
     <string name="pref_header_general">Allgemein</string>
     <string name="restart_required">Zum Anwenden App neustarten</string>
     <string name="app_icon_made_by">App-Symbol erstellt von</string>
-    <string name="from">von</string>
     <string name="file_access">Dateizugriff</string>
     <string name="look_and_feel">Erscheinungsbild</string>
     <string name="dark_theme">Dunkles Design</string>
