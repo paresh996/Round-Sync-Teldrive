@@ -26,8 +26,14 @@ jobs:
       with:
         go-version: '${{env.GO_VERSION}}'
       id: go
-    - name: Setup Android SDK/NDK
-      uses: android-actions/setup-android@v3
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v4
+      with:
+        packages: |
+          platform-tools
+          build-tools;34.0.0
+          platforms;android-34
+          ndk;25.2.9519653  
     - name: Install NDK from gradle.properties
       run: |
         NDK_VERSION="$(grep -E "^de\.felixnuesse\.extract\.ndkVersion=" gradle.properties | cut -d'=' -f2)"
